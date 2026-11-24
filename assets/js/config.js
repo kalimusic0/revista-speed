@@ -8,6 +8,6 @@ window.REVISTA_CONFIG = {
     // Calificaciones por estrellas y reseñas (servicio gratuito Supabase).
     // Mientras estén vacíos, el sitio funciona pero las estrellas aparecen "próximamente".
     // Pasos para llenarlos: ver LEEME.md, sección "Activar las estrellas".
-    supabaseUrl: '',            // ej. 'https://abcdefgh.supabase.co'
-    supabaseKey: ''             // la clave "anon / public" (es pública por diseño; la seguridad la dan las reglas del SQL)
+    supabaseUrl: 'https://jhcbyjzrnomncafrueor.supabase.co',
+    supabaseKey: 'sb_publishable_4RVr1_IN0zP3Rgw1DTf7CQ_xXuMEpxd'   // clave pública (publishable): la seguridad la dan las reglas del SQL
 };

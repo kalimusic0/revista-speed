@@ -88,6 +88,16 @@
     function yaVoto(id) {
         try { return !!localStorage.getItem('rs_voto_' + id); } catch (e) { return false; }
     }
+    // Pregunta a Supabase si este navegador sigue teniendo un voto en el proyecto.
+    // Si la función ya_voto no existe o hay un error de red, se conserva la marca local (true).
+    function confirmarVoto(id) {
+        return fetch(CFG.supabaseUrl + '/rest/v1/rpc/ya_voto', {
+            method: 'POST', headers: sbHeaders(),
+            body: JSON.stringify({ p_proyecto: id, p_huella: huella() })
+        }).then(function (r) { return r.ok ? r.json() : true; })
+          .then(function (v) { return v !== false; })
+          .catch(function () { return true; });
+    }
 
     /* ================= PORTADA ================= */
     function iniciarPortada() {
@@ -246,7 +256,16 @@
             return;
         }
         if (yaVoto(p.id)) {
-            zona.innerHTML = '<p class="aviso aviso-ok">Ya enviaste tu calificación. ¡Gracias por participar!</p>';
+            // la marca local puede estar desactualizada (p. ej. si se borró el voto en Supabase): se confirma con el servidor
+            zona.innerHTML = '<p class="tenue">Comprobando tu calificación…</p>';
+            confirmarVoto(p.id).then(function (sigueVotado) {
+                if (sigueVotado) {
+                    zona.innerHTML = '<p class="aviso aviso-ok">Ya enviaste tu calificación. ¡Gracias por participar!</p>';
+                } else {
+                    try { localStorage.removeItem('rs_voto_' + p.id); } catch (e) {}
+                    iniciarVoto(p, zona);
+                }
+            });
             return;
         }
         var radios = '';

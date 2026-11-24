@@ -27,3 +27,21 @@ create policy "enviar calificacion" on public.valoraciones
 revoke all on public.valoraciones from anon;
 grant select (id, proyecto, estrellas, nombre, comentario, created_at) on public.valoraciones to anon;
 grant insert on public.valoraciones to anon;
+
+-- Permite a la página comprobar si ESTE navegador ya votó (sin exponer la huella de nadie).
+-- Así, si borras un voto en Supabase, esa persona puede volver a votar.
+create or replace function public.ya_voto(p_proyecto text, p_huella text)
+returns boolean
+language sql
+security definer
+set search_path = public
+stable
+as $$
+    select exists (
+        select 1 from public.valoraciones
+        where proyecto = p_proyecto and huella = p_huella
+    );
+$$;
+
+revoke all on function public.ya_voto(text, text) from public;
+grant execute on function public.ya_voto(text, text) to anon;

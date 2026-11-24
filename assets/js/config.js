@@ -7,7 +7,7 @@ window.REVISTA_CONFIG = {
 
     // Las calificaciones y reseñas se abren AUTOMÁTICAMENTE el día del evento (fechaEvento).
     // Mientras fechaEvento esté vacía, permanecen cerradas. Para abrirlas antes, pon true.
-    calificacionesAbiertas: false,
+    calificacionesAbiertas: true,
 
     // Pantalla de bienvenida tipo anuncio ("Espéralo próximamente") al abrir la revista.
     // Se apaga sola el día del evento. Para quitarla antes, pon false.

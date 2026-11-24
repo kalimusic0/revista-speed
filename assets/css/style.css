@@ -249,3 +249,51 @@ legend{font-weight:700;padding:0 .4rem}
     .tarjeta-img{aspect-ratio:16/8}
     .titulo-seccion{font-size:1.2rem}
 }
+
+/* ===== Pantallas anchas: aprovechar el espacio (sin franjas vacías) ===== */
+body{background:
+    radial-gradient(900px 520px at 0% 0%,rgba(255,107,44,.10),transparent 65%),
+    radial-gradient(1000px 640px at 100% 18%,rgba(31,58,115,.12),transparent 65%),
+    radial-gradient(900px 600px at 0% 75%,rgba(31,58,115,.08),transparent 65%),
+    var(--fondo);background-attachment:fixed}
+@media (min-width:1200px){
+    .contenedor,.cab-in{max-width:1480px}
+    .contenedor{padding-left:2rem;padding-right:2rem}
+    .portada{padding:clamp(2.5rem,3.4vw,4.2rem);gap:3rem}
+    .portada h1{font-size:clamp(3.2rem,4.2vw,5rem);max-width:11ch}
+    .portada-sub{font-size:clamp(1.05rem,1.1vw,1.3rem);max-width:56ch}
+    .portada-sup{font-size:.85rem}
+    .portada-btns .btn{padding:.85rem 1.6rem;font-size:1.05rem}
+    .collage{grid-template-rows:repeat(3,clamp(110px,8.2vw,158px));gap:.9rem}
+    .chip{font-size:.92rem;padding:.4rem .9rem}
+    .pilares{gap:1.6rem}
+    .pilar img{aspect-ratio:16/8}
+    .pilar div{padding:1.1rem 1.4rem 1.3rem}
+    .pilar h3{font-size:1.3rem}
+    .pilar p{font-size:1.02rem}
+    .banda{min-height:clamp(260px,22vw,340px)}
+    .banda-texto{max-width:760px;padding:clamp(2rem,4vw,3.5rem)}
+    .banda-texto h2{font-size:clamp(1.8rem,2.4vw,2.6rem)}
+    .banda-texto p{font-size:1.15rem}
+    .titulo-seccion{font-size:1.9rem;margin-top:1.5rem}
+    .rejilla{grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:1.6rem}
+    .tarjeta h3{font-size:1.3rem}
+}
+@media (min-width:1700px){
+    .contenedor,.cab-in{max-width:1640px}
+}
+
+/* ===== Celular: aún más discreto ===== */
+@media (max-width:640px){
+    .collage{grid-template-rows:46px;gap:.35rem}
+    .pilar img{width:62px;height:62px}
+    .pilar div{padding:.45rem .7rem}
+    .pilar h3{font-size:.95rem}
+    .pilar p{font-size:.8rem}
+    .banda>img,.banda-velo{display:none}
+    .banda{background:linear-gradient(120deg,var(--azul),var(--azul2))}
+    .banda-texto{padding:.8rem 1rem}
+    .banda-texto h2{font-size:1rem}
+    .banda-texto p{font-size:.82rem}
+    .tarjeta-img{aspect-ratio:16/7}
+}

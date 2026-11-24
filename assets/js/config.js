@@ -1,8 +1,8 @@
 /* CONFIGURACIÓN DE REVISTA SPEED (sitio estático en GitHub Pages) */
 window.REVISTA_CONFIG = {
     nombre: 'Revista Speed',
-    evento: 'Casa Abierta',
-    lema: 'Casa Abierta · Proyectos e ideas innovadoras',
+    evento: 'Digitaliza tu negocio',
+    lema: 'Casa Abierta «Digitaliza tu negocio»',
     fechaEvento: '',            // ej. '2026-12-05' para mostrar "Faltan X días" en la portada (opcional)
 
     // Calificaciones por estrellas y reseñas (servicio gratuito Supabase).

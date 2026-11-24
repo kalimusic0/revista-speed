@@ -178,3 +178,41 @@ legend{font-weight:700;padding:0 .4rem}
 }
 
 [hidden]{display:none!important}
+
+/* ===== Portada "Digitaliza tu negocio" (hero con fotos, pilares y banda) ===== */
+.portada{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:2rem;align-items:center;padding:clamp(1.5rem,4vw,3rem)}
+.portada:after{z-index:0}
+.portada-texto,.collage{position:relative;z-index:1}
+.portada h1{font-size:clamp(2.2rem,1.4rem + 3.6vw,4rem);line-height:1.05;max-width:12ch}
+.portada-btns{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.4rem}
+.collage{min-height:clamp(300px,34vw,430px)}
+.collage img{position:absolute;object-fit:cover;border-radius:16px;border:4px solid #fff;box-shadow:0 14px 32px rgba(0,0,0,.35)}
+.collage .c1{left:0;top:0;width:58%;height:60%;transform:rotate(-2deg)}
+.collage .c2{right:0;top:5%;width:38%;height:40%;transform:rotate(3deg)}
+.collage .c3{left:6%;bottom:0;width:40%;height:36%;transform:rotate(2deg)}
+.collage .c4{right:0;bottom:2%;width:52%;height:48%;transform:rotate(-2deg)}
+.chip{position:absolute;z-index:2;background:#fff;color:var(--azul);font-weight:700;font-size:.85rem;padding:.4rem .8rem;border-radius:999px;box-shadow:0 6px 16px rgba(0,0,0,.25);white-space:nowrap}
+.chip-a{left:36%;top:52%}
+.chip-b{right:34%;top:36%}
+
+.pilares{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:1.2rem;margin:0 0 1.5rem}
+.pilar{background:#fff;border:1px solid var(--linea);border-radius:var(--radio);overflow:hidden;box-shadow:var(--sombra)}
+.pilar img{width:100%;aspect-ratio:16/9;object-fit:cover}
+.pilar div{padding:.9rem 1.1rem 1.1rem}
+.pilar h3{margin:0 0 .25rem;font-size:1.15rem}
+.pilar p{margin:0;color:#3a4256}
+
+.banda{position:relative;border-radius:var(--radio);overflow:hidden;min-height:230px;display:flex;align-items:center;margin:0 0 1.5rem}
+.banda>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.banda-velo{position:absolute;inset:0;background:linear-gradient(90deg,rgba(20,33,61,.92),rgba(20,33,61,.55) 60%,rgba(255,107,44,.35))}
+.banda-texto{position:relative;padding:clamp(1.2rem,4vw,2.5rem);color:#fff;max-width:620px}
+.banda-texto h2{color:#fff;margin:0 0 .4rem}
+.banda-texto p{margin:0;color:#e6ecfa}
+.titulo-seccion{margin:.5rem 0 0}
+.pie small a{color:inherit}
+
+@media (max-width:820px){
+    .portada{grid-template-columns:1fr}
+    .portada h1{max-width:none}
+    .collage{min-height:300px;margin-top:.5rem}
+}

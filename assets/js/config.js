@@ -9,6 +9,10 @@ window.REVISTA_CONFIG = {
     // Mientras fechaEvento esté vacía, permanecen cerradas. Para abrirlas antes, pon true.
     calificacionesAbiertas: false,
 
+    // Pantalla de bienvenida tipo anuncio ("Espéralo próximamente") al abrir la revista.
+    // Se apaga sola el día del evento. Para quitarla antes, pon false.
+    pantallaProximamente: true,
+
     // Calificaciones por estrellas y reseñas (servicio gratuito Supabase).
     // Mientras estén vacíos, el sitio funciona pero las estrellas aparecen "próximamente".
     // Pasos para llenarlos: ver LEEME.md, sección "Activar las estrellas".

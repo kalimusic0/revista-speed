@@ -293,3 +293,37 @@ body{background:
     .banda-texto p{font-size:.82rem}
     .tarjeta-img{aspect-ratio:16/7}
 }
+
+/* ===== Pantalla de bienvenida "Espéralo próximamente" ===== */
+.sin-scroll{overflow:hidden}
+.splash{position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:1.5rem;text-align:center;color:#fff;overflow-x:hidden;overflow-y:auto;
+    background:linear-gradient(160deg,rgba(14,24,46,.93),rgba(20,33,61,.9) 55%,rgba(60,40,45,.88)),url(../../img/portada/equipo-startup.jpg) center/cover no-repeat;
+    animation:sp-entra .5s ease both}
+.splash::before{content:"";position:absolute;width:min(70vw,620px);aspect-ratio:1;right:-12%;top:-18%;border-radius:50%;
+    background:radial-gradient(circle,rgba(255,107,44,.55),transparent 65%);pointer-events:none;animation:sp-pulso 5s ease-in-out infinite}
+.splash.saliendo{animation:sp-sale .45s ease forwards}
+.splash-in{position:relative;max-width:820px;width:100%}
+.splash-x{position:absolute;top:1rem;right:1.1rem;z-index:2;background:rgba(255,255,255,.14);color:#fff;border:0;width:42px;height:42px;border-radius:50%;font-size:1.6rem;line-height:1;cursor:pointer}
+.splash-x:hover{background:rgba(255,255,255,.28)}
+.splash-sup{margin:0 0 .8rem;text-transform:uppercase;letter-spacing:.3em;font-size:.85rem;font-weight:700;color:#ffd1b8;animation:sp-sube .7s .1s ease both}
+.splash-titulo{margin:0;color:#fff;font-size:clamp(2.6rem,8vw,6rem);line-height:1.02;font-weight:800;animation:sp-sube .7s .2s ease both}
+.splash-titulo span{color:var(--naranja)}
+.splash-pronto{display:inline-flex;align-items:center;gap:.7rem;margin:1.4rem 0 .4rem;padding:.55rem 1.4rem;border-radius:999px;
+    background:var(--naranja);color:#fff;font-weight:800;font-size:clamp(1rem,2.6vw,1.5rem);letter-spacing:.08em;text-transform:uppercase;
+    box-shadow:0 10px 30px rgba(255,107,44,.45);animation:sp-sube .7s .35s ease both,sp-brilla 2.4s 1.2s ease-in-out infinite}
+.splash-pronto i{width:.5rem;height:.5rem;border-radius:50%;background:#fff;animation:sp-punto 1.2s ease-in-out infinite}
+.splash-pronto i:last-child{animation-delay:.6s}
+.splash-sub{max-width:46ch;margin:1rem auto 0;color:#dbe4f7;font-size:clamp(1rem,2.2vw,1.2rem);animation:sp-sube .7s .5s ease both}
+.splash-cuenta{display:flex;justify-content:center;gap:.7rem;margin:1.6rem 0 0;animation:sp-sube .7s .6s ease both}
+.splash-cuenta>div{min-width:72px;padding:.6rem .5rem;border-radius:12px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2)}
+.splash-cuenta b{display:block;font-size:clamp(1.5rem,5vw,2.2rem);font-variant-numeric:tabular-nums}
+.splash-cuenta span{font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;color:#c9d6f2}
+.splash-btn{margin-top:1.8rem;padding:.9rem 2.2rem;font-size:1.05rem;animation:sp-sube .7s .7s ease both}
+@keyframes sp-entra{from{opacity:0}to{opacity:1}}
+@keyframes sp-sale{to{opacity:0;transform:scale(1.03)}}
+@keyframes sp-sube{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes sp-pulso{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(1.12);opacity:.65}}
+@keyframes sp-brilla{0%,100%{box-shadow:0 10px 30px rgba(255,107,44,.45)}50%{box-shadow:0 10px 46px rgba(255,107,44,.85)}}
+@keyframes sp-punto{0%,100%{opacity:.35;transform:scale(.8)}50%{opacity:1;transform:scale(1.15)}}
+@media (prefers-reduced-motion:reduce){.splash,.splash *,.splash::before{animation:none!important}}
+@media (max-width:640px){.splash-cuenta>div{min-width:60px}}

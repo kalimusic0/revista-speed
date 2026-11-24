@@ -5,9 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Digitaliza tu negocio · Revista Speed</title>
 <meta name="description" content="Casa Abierta «Digitaliza tu negocio»: revista digital con los proyectos, expositores, ideas innovadoras y evidencias fotográficas.">
-<link rel="stylesheet" href="assets/css/style.css?v=202611241116">
+<link rel="stylesheet" href="assets/css/style.css?v=202611241120">
 </head>
 <body>
+<div class="splash" id="splash" role="dialog" aria-modal="true" aria-labelledby="splash-titulo">
+    <button class="splash-x" id="splash-x" type="button" aria-label="Cerrar">&times;</button>
+    <div class="splash-in">
+        <p class="splash-sup">Casa Abierta &middot; Speed</p>
+        <h1 class="splash-titulo" id="splash-titulo"><span>Digitaliza</span> tu negocio</h1>
+        <p class="splash-pronto"><i></i> Espéralo próximamente <i></i></p>
+        <p class="splash-sub">Proyectos, ideas y emprendedores que llevan los negocios al mundo digital.</p>
+        <div class="splash-cuenta" id="splash-cuenta" hidden>
+            <div><b id="sc-d">0</b><span>días</span></div>
+            <div><b id="sc-h">00</b><span>horas</span></div>
+            <div><b id="sc-m">00</b><span>min</span></div>
+            <div><b id="sc-s">00</b><span>seg</span></div>
+        </div>
+        <button class="btn splash-btn" id="splash-btn" type="button">Ver la revista</button>
+    </div>
+</div>
+<noscript><style>.splash{display:none!important}</style></noscript>
+<script>try{if(sessionStorage.getItem('rs_splash')){document.getElementById('splash').remove();}}catch(e){}</script>
 <header class="cab">
     <div class="cab-in">
         <a class="marca" href="index.html"><span class="marca-r">SPEED</span> <span class="marca-t">Revista</span></a>
@@ -80,7 +98,7 @@
 
 </main>
 <footer class="pie">Revista Speed &middot; Casa Abierta «Digitaliza tu negocio»<br><small>Fotografías: <a href="https://www.pexels.com" target="_blank" rel="noopener">Pexels</a></small></footer>
-<script src="assets/js/config.js?v=202611241116"></script>
-<script src="assets/js/app.js?v=202611241116"></script>
+<script src="assets/js/config.js?v=202611241120"></script>
+<script src="assets/js/app.js?v=202611241120"></script>
 </body>
 </html>

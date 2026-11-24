@@ -38,6 +38,13 @@ El orden de la portada sigue el campo `fecha` (de la más antigua a la más reci
 La clave *anon* es pública por diseño: las reglas del SQL solo permiten leer calificaciones y enviar una nueva
 (un voto por navegador y proyecto). Para borrar una reseña inapropiada: Supabase → **Table Editor → valoraciones** → eliminar la fila.
 
+## Calificaciones solo el día del evento
+Las estrellas y reseñas están **cerradas** hasta el día del evento. En `assets/js/config.js` pon la fecha en `fechaEvento`
+(ej. `'2026-12-05'`): ese día se abren solas y antes de esa fecha la portada muestra "Faltan X días".
+Para abrirlas antes: `calificacionesAbiertas: true`.
+
+Para dejar la tabla en cero antes del evento: Supabase → **SQL Editor** → ejecutar `delete from public.valoraciones;`
+
 ## Dominio
 El archivo `CNAME` contiene `revista-speed.gedetca.com`. En el DNS de `gedetca.com` debe existir un registro
 **CNAME** `revista-speed` → `kalimusic0.github.io` (igual que `www` y `descargas`).

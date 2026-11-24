@@ -5,6 +5,13 @@
 
     var CFG = window.REVISTA_CONFIG || {};
     var CON_ESTRELLAS = !!(CFG.supabaseUrl && CFG.supabaseKey);
+
+    /* Las calificaciones se habilitan el día del evento (CFG.fechaEvento) o antes si CFG.calificacionesAbiertas === true. */
+    function hoyYMD() {
+        var d = new Date();
+        return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+    }
+    var VOTO_ABIERTO = CFG.calificacionesAbiertas === true || !!(CFG.fechaEvento && hoyYMD() >= CFG.fechaEvento);
     var MESES = ['', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto',
                  'septiembre', 'octubre', 'noviembre', 'diciembre'];
 
@@ -144,7 +151,7 @@
                     var s = stats[p.id];
                     var img = rutaSegura(p.portada);
                     var nota = s ? estrellasHtml(s.suma / s.n) + ' <small>' + (s.suma / s.n).toFixed(1) + ' (' + s.n + ')</small>'
-                                 : '<small class="tenue">' + (CON_ESTRELLAS ? 'Sin calificaciones aún' : 'Calificaciones próximamente') + '</small>';
+                                 : '<small class="tenue">' + (VOTO_ABIERTO && CON_ESTRELLAS ? 'Sin calificaciones aún' : 'Calificaciones el día del evento') + '</small>';
                     var href = 'proyecto.html?id=' + encodeURIComponent(p.id);
                     return '<article class="tarjeta">' +
                         '<a class="tarjeta-img" href="' + href + '">' +
@@ -195,7 +202,7 @@
                     (p.stand ? ' · Stand: <strong>' + esc(p.stand) + '</strong>' : '') + '</p>' +
                     '<h1>' + esc(p.titulo) + '</h1><p class="lead">' + esc(p.resena) + '</p>' +
                     '<p class="art-nota">' + (vals.length ? estrellasHtml(prom) + ' <strong>' + prom.toFixed(1) + '</strong> <small>(' + vals.length + (vals.length === 1 ? ' calificación' : ' calificaciones') + ')</small>'
-                        : '<small class="tenue">' + (CON_ESTRELLAS ? 'Aún sin calificaciones' : 'Calificaciones próximamente') + '</small>') + '</p></header>';
+                        : '<small class="tenue">' + (VOTO_ABIERTO && CON_ESTRELLAS ? 'Aún sin calificaciones' : 'Calificaciones el día del evento') + '</small>') + '</p></header>';
             if (img) { html += '<figure class="art-portada"><img src="' + esc(img) + '" alt="' + esc(p.titulo) + '"></figure>'; }
 
             html += '<div class="art-cols"><div class="art-texto"><h2>Sobre el proyecto</h2><p>' + nl2br(p.descripcion) + '</p>' +
@@ -233,8 +240,9 @@
     }
 
     function iniciarVoto(p, zona) {
-        if (!CON_ESTRELLAS) {
-            zona.innerHTML = '<p class="tenue">Las calificaciones se habilitarán muy pronto.</p>';
+        if (!CON_ESTRELLAS || !VOTO_ABIERTO) {
+            zona.innerHTML = '<p class="aviso aviso-info">&#9733; Las calificaciones y reseñas estarán disponibles <strong>el día del evento</strong>' +
+                (CFG.fechaEvento ? ' (' + fechaBonita(CFG.fechaEvento) + ')' : '') + '. ¡Vuelve ese día para calificar este proyecto!</p>';
             return;
         }
         if (yaVoto(p.id)) {

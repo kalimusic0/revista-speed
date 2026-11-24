@@ -1,0 +1,11 @@
+# Aquí solo van fotos: nunca se ejecuta código
+Options -Indexes -ExecCGI
+<FilesMatch "\.(php|phtml|phar|pl|py|cgi|sh)$">
+    Require all denied
+</FilesMatch>
+<IfModule mod_php7.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php.c>
+    php_flag engine off
+</IfModule>

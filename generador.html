@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Generador de proyectos · Revista Speed</title>
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<header class="cab">
+    <div class="cab-in">
+        <a class="marca" href="index.html"><span class="marca-r">SPEED</span> <span class="marca-t">Revista</span></a>
+        <nav class="menu"><a href="index.html">Proyectos</a></nav>
+    </div>
+</header>
+<main class="contenedor">
+<h1>Generador de proyectos</h1>
+<p class="tenue">Llena el formulario, copia el resultado y pégalo en <code>data/proyectos.json</code> (dentro de los corchetes <code>[ ]</code>, separando proyectos con una coma). Luego sube las fotos a la carpeta indicada. Esta página solo prepara el texto: no guarda nada.</p>
+
+<form class="form form-ancho" id="f" autocomplete="off">
+    <label>Título del proyecto <input name="titulo" maxlength="120" required></label>
+    <div class="dos-col">
+        <label>Curso <input name="curso" maxlength="80" required placeholder="Ej. 2.º de Bachillerato A"></label>
+        <label>Stand / ubicación (opcional) <input name="stand" maxlength="60"></label>
+    </div>
+    <label>Expositores (uno por línea)
+        <textarea name="expositores" rows="3" required placeholder="Nombre Apellido&#10;Nombre Apellido&#10;Docente tutor: …"></textarea></label>
+    <label>Reseña corta <small class="tenue">(sale en la tarjeta de la portada, máx. 280 caracteres)</small>
+        <textarea name="resena" rows="2" maxlength="280" required></textarea></label>
+    <label>Descripción completa <small class="tenue">(qué es, qué problema resuelve, cómo funciona)</small>
+        <textarea name="descripcion" rows="6" required></textarea></label>
+    <label>¿Qué tiene de innovador?
+        <textarea name="innovacion" rows="3" required></textarea></label>
+    <div class="dos-col">
+        <label>Fecha de publicación <input type="date" name="fecha" required></label>
+        <label>Video de YouTube (opcional) <input name="video" placeholder="https://youtu.be/…"></label>
+    </div>
+    <label>Nombres de las fotos de evidencia (uno por línea, opcional)
+        <textarea name="fotos" rows="3" placeholder="foto1.jpg&#10;foto2.jpg"></textarea></label>
+    <label>Extensión de la imagen principal
+        <select name="ext"><option>jpg</option><option>png</option><option>webp</option></select></label>
+    <button class="btn" type="submit">Generar</button>
+</form>
+
+<section id="salida" hidden>
+    <h2>1. Copia este texto en <code>data/proyectos.json</code></h2>
+    <textarea id="json" rows="16" readonly style="font-family:Consolas,monospace;font-size:.85rem"></textarea>
+    <p><button class="btn" id="copiar" type="button">Copiar</button> <span id="ok" class="tenue"></span></p>
+
+    <h2>2. Sube las fotos a esta carpeta del repositorio</h2>
+    <p><code id="carpeta"></code></p>
+    <p class="tenue">La imagen principal debe llamarse <code id="nportada"></code>. Las demás fotos, con los nombres que escribiste arriba.</p>
+</section>
+</main>
+<footer class="pie">Revista Speed &middot; Generador interno</footer>
+<script>
+(function () {
+    function slug(s) {
+        return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+                .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 50) || 'proyecto';
+    }
+    function lineas(s) { return s.split('\n').map(function (x) { return x.trim(); }).filter(Boolean); }
+
+    document.getElementById('f').addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        var f = ev.target, id = slug(f.titulo.value), base = 'img/proyectos/' + id + '/';
+        var p = {
+            id: id,
+            titulo: f.titulo.value.trim(),
+            curso: f.curso.value.trim(),
+            expositores: lineas(f.expositores.value),
+            stand: f.stand.value.trim(),
+            fecha: f.fecha.value,
+            resena: f.resena.value.trim(),
+            descripcion: f.descripcion.value.trim(),
+            innovacion: f.innovacion.value.trim(),
+            video: f.video.value.trim(),
+            portada: base + 'portada.' + f.ext.value,
+            fotos: lineas(f.fotos.value).map(function (n) { return base + n; })
+        };
+        document.getElementById('json').value = JSON.stringify(p, null, 2);
+        document.getElementById('carpeta').textContent = base;
+        document.getElementById('nportada').textContent = 'portada.' + f.ext.value;
+        var s = document.getElementById('salida');
+        s.hidden = false;
+        s.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    document.getElementById('copiar').addEventListener('click', function () {
+        var t = document.getElementById('json');
+        t.select();
+        try { document.execCommand('copy'); document.getElementById('ok').textContent = '¡Copiado!'; }
+        catch (e) { document.getElementById('ok').textContent = 'Selecciona el texto y copia con Ctrl+C.'; }
+    });
+})();
+</script>
+</body>
+</html>

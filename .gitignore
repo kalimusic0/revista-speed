@@ -1,9 +1,2 @@
-# Datos del sitio: NUNCA se suben (se crean en el hosting)
-data/*.sqlite
-data/*.sqlite-journal
-uploads/*
-!uploads/.htaccess
-!data/.htaccess
-# Pruebas locales
 .claude/
 *.log

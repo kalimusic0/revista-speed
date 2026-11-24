@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proyectos · Revista Speed</title>
+<meta name="description" content="Revista digital de la Casa Abierta: proyectos, expositores, ideas innovadoras y evidencias fotográficas.">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<header class="cab">
+    <div class="cab-in">
+        <a class="marca" href="index.html"><span class="marca-r">SPEED</span> <span class="marca-t">Revista</span></a>
+        <nav class="menu"><a href="index.html">Proyectos</a></nav>
+    </div>
+</header>
+<main class="contenedor">
+
+<section class="portada">
+    <p class="portada-sup">Casa Abierta</p>
+    <h1>Proyectos e ideas que <span>van a toda velocidad</span></h1>
+    <p class="portada-sub">Conoce lo que construyeron todos los cursos: expositores, ideas innovadoras y evidencias fotográficas. Entra a cada proyecto, califícalo y deja tu reseña.</p>
+    <p class="cuenta" id="cuenta" hidden></p>
+</section>
+
+<section class="destacados" id="destacados" hidden>
+    <h2>Mejor puntuados</h2>
+    <div class="dest-fila" id="dest-fila"></div>
+</section>
+
+<section>
+    <div class="filtros">
+        <input type="search" id="f-q" placeholder="Buscar proyecto, tema o expositor…">
+        <select id="f-curso"><option value="">Todos los cursos</option></select>
+        <select id="f-orden">
+            <option value="antiguas">Fecha: de la más antigua</option>
+            <option value="recientes">Fecha: la más reciente primero</option>
+        </select>
+    </div>
+    <div class="rejilla" id="rejilla"><p class="vacio" style="grid-column:1/-1">Cargando proyectos…</p></div>
+</section>
+
+</main>
+<footer class="pie">Revista Speed &middot; Casa Abierta · Proyectos e ideas innovadoras</footer>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

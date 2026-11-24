@@ -1,45 +1,44 @@
-# Revista Speed
+# Revista Speed (sitio estático para GitHub Pages)
 
-Revista digital para la **Casa Abierta**: portada con todos los proyectos, página completa de cada proyecto
-(expositores, idea innovadora, fotos, video), calificación de 1 a 5 estrellas con reseña corta, login para
-expositores y un módulo de carga que el administrador habilita o cierra.
+Revista digital para la **Casa Abierta**: portada con todos los proyectos, página completa de cada uno
+(expositores, idea innovadora, fotos, video), calificación por estrellas y reseñas.
+Publicada en **https://revista-speed.gedetca.com**.
 
-Tecnología: **PHP 7.3+** (sin librerías ni Composer) + **SQLite** (un archivo; no hay que crear base de datos).
+Es un sitio estático (HTML + CSS + JS): no necesita servidor ni base de datos propia.
+La versión con PHP, login y panel de carga está en la rama `version-php` de este repositorio.
 
-## Subirla al hosting (cPanel) paso a paso
+## Estructura
+| Archivo | Para qué sirve |
+|---|---|
+| `data/proyectos.json` | **Aquí viven los proyectos** (título, curso, expositores, reseña, fotos…) |
+| `img/proyectos/<id>/` | Fotos de cada proyecto (`portada.jpg` + evidencias) |
+| `generador.html` | Formulario que prepara el texto para pegar en `proyectos.json` |
+| `assets/js/config.js` | Nombre, fecha del evento y claves de las estrellas |
+| `supabase.sql` | Tabla de calificaciones (se pega una vez en Supabase) |
 
-1. En cPanel abre **Administrador de archivos** → carpeta `public_html` (o la de tu dominio/subdominio).
-2. Sube **todo el contenido** de esta carpeta (puedes subirla comprimida en .zip y usar "Extraer").
-   Asegúrate de que se vean también los archivos que empiezan con punto (`.htaccess`): en "Configuración" activa *Mostrar archivos ocultos*.
-3. Da permisos de escritura a las carpetas `data/` y `uploads/` (clic derecho → Permisos → `755`; si falla, `775`).
-4. Abre en el navegador `https://tudominio.com/install.php`, crea la cuenta del **administrador**.
-5. **Borra `install.php`** del hosting.
-6. Entra a `login.php` con tu cuenta de administrador.
+## Agregar un proyecto (sin programar)
+1. Abre `https://revista-speed.gedetca.com/generador.html`, llena el formulario y pulsa **Generar**.
+2. En GitHub abre `data/proyectos.json` → lápiz (editar) → pega el texto del paso 1 dentro de los corchetes `[ ]`
+   (si ya hay proyectos, separa con una coma `,`) → **Commit changes**.
+3. En GitHub abre `img/proyectos/` → **Add file → Upload files**, crea la carpeta con el nombre que indicó el generador
+   (ej. `img/proyectos/mi-proyecto/portada.jpg`) y sube las fotos → **Commit changes**.
+4. En 1–2 minutos aparece en la revista.
 
-Si tu hosting no tiene SQLite (raro), usa MySQL: crea la base y el usuario en cPanel → *Bases de datos MySQL*,
-y en `includes/config.php` cambia `'driver' => 'mysql'` y llena `host`, `name`, `user`, `pass`. Luego abre `install.php`.
+Consejos: fotos horizontales, JPG, de menos de 1,5 MB (reduce las del celular antes de subirlas).
+Borra los dos proyectos de ejemplo de `proyectos.json` y de `img/proyectos/`.
 
-## Cómo se usa
+El orden de la portada sigue el campo `fecha` (de la más antigua a la más reciente; el visitante puede invertirlo).
 
-**Administrador** (menú *Administración*)
-- Habilita o cierra el **módulo de carga** de publicaciones.
-- Crea las cuentas de cada curso/expositor y cambia contraseñas.
-- Modera reseñas (elimina las inapropiadas).
-- En *Mi panel* publica ("Publicar") u oculta los proyectos que envían los cursos.
+## Activar las estrellas y reseñas (Supabase, gratis)
+1. Crea una cuenta en https://supabase.com → **New project** (anota la contraseña de la base de datos, no se usa aquí).
+2. Cuando termine de crearse: **SQL Editor → New query**, pega todo `supabase.sql` y pulsa **Run**.
+3. **Project Settings → API**: copia **Project URL** y la clave **anon public**.
+4. Edita `assets/js/config.js` en GitHub y pega esos dos valores en `supabaseUrl` y `supabaseKey` → **Commit changes**.
 
-**Expositor / curso** (*Mi panel* → *Nueva publicación*, solo mientras la carga esté habilitada)
-- Llena título, curso, expositores, reseña corta, descripción, innovación, fecha y sube imagen principal + fotos de evidencia.
-- Su proyecto queda *Pendiente* hasta que el administrador lo publique.
+La clave *anon* es pública por diseño: las reglas del SQL solo permiten leer calificaciones y enviar una nueva
+(un voto por navegador y proyecto). Para borrar una reseña inapropiada: Supabase → **Table Editor → valoraciones** → eliminar la fila.
 
-**Visitante** (sin cuenta)
-- Ve la portada, filtra por curso, abre un proyecto, lo califica con estrellas y deja una reseña (una vez por navegador).
-
-## Personalizar
-- Nombre, lema, fecha de la casa abierta (cuenta regresiva): `includes/config.php`.
-- Colores: variables al inicio de `assets/css/style.css`.
-- La portada ordena por fecha de la más antigua a la más reciente; el visitante puede invertir el orden.
-
-## Seguridad incluida
-Contraseñas con hash, protección CSRF, consultas preparadas, freno a intentos de login, fotos validadas y
-re-guardadas (no se pueden subir archivos ejecutables), `uploads/`, `data/` e `includes/` bloqueadas por `.htaccess`.
-**Haz copia de `data/revista.sqlite` y de `uploads/`** antes y después del evento.
+## Dominio
+El archivo `CNAME` contiene `revista-speed.gedetca.com`. En el DNS de `gedetca.com` debe existir un registro
+**CNAME** `revista-speed` → `kalimusic0.github.io` (igual que `www` y `descargas`).
+En GitHub: repositorio → **Settings → Pages** → Source: *Deploy from a branch* → `main` / `(root)` → activar **Enforce HTTPS**.

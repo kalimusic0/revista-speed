@@ -1,0 +1,35 @@
+[
+  {
+    "id": "robot-recolector",
+    "titulo": "Robot recolector de basura (EJEMPLO)",
+    "curso": "2.º de Bachillerato A",
+    "expositores": ["Ana Pérez", "Luis Mora", "Docente tutor: Prof. Ramírez"],
+    "stand": "Pasillo 2, mesa 5",
+    "fecha": "2026-12-05",
+    "resena": "Un robot que detecta y recoge residuos del patio usando sensores y piezas recicladas.",
+    "descripcion": "Este es un proyecto de ejemplo para ver cómo se ve la revista. Reemplázalo con los proyectos reales editando data/proyectos.json o usando generador.html.\nPuedes escribir varios párrafos separados por una línea.",
+    "innovacion": "Usa sensores de bajo costo y materiales reciclados, por lo que cualquier colegio podría construirlo.",
+    "video": "",
+    "portada": "img/proyectos/robot-recolector/portada.svg",
+    "fotos": [
+      "img/proyectos/robot-recolector/foto1.svg",
+      "img/proyectos/robot-recolector/foto2.svg"
+    ]
+  },
+  {
+    "id": "huerto-hidroponico",
+    "titulo": "Huerto hidropónico inteligente (EJEMPLO)",
+    "curso": "3.º de Bachillerato B",
+    "expositores": ["María Torres", "Jorge Salazar"],
+    "stand": "Patio central",
+    "fecha": "2026-12-06",
+    "resena": "Cultivo de hortalizas sin tierra, con riego automático controlado desde el celular.",
+    "descripcion": "Otro proyecto de ejemplo. Aquí se explica qué problema resuelve, cómo funciona y qué resultados obtuvieron.",
+    "innovacion": "Ahorra hasta un 80 % del agua frente al cultivo tradicional.",
+    "video": "",
+    "portada": "img/proyectos/huerto-hidroponico/portada.svg",
+    "fotos": [
+      "img/proyectos/huerto-hidroponico/foto1.svg"
+    ]
+  }
+]

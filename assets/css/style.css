@@ -216,3 +216,36 @@ legend{font-weight:700;padding:0 .4rem}
     .portada h1{max-width:none}
     .collage{margin-top:.5rem;grid-template-rows:repeat(3,clamp(80px,22vw,130px))}
 }
+
+/* ===== Celular: imágenes más pequeñas y menos invasivas ===== */
+@media (max-width:640px){
+    .portada{padding:1.25rem 1.1rem;gap:1rem;margin-bottom:1rem}
+    .portada h1{font-size:2.1rem}
+    .portada-sub{font-size:.95rem}
+    .portada-sup{font-size:.7rem}
+
+    /* collage -> franja de 4 miniaturas */
+    .collage{grid-template-columns:repeat(4,1fr);grid-template-rows:64px;gap:.4rem;margin-top:0}
+    .collage .c1,.collage .c2,.collage .c3,.collage .c4{grid-column:auto;grid-row:1}
+    .collage img{border-width:2px;border-radius:10px;box-shadow:0 4px 10px rgba(0,0,0,.3)}
+    .chip{display:none}
+
+    /* tarjetas de ideas -> fila compacta con miniatura */
+    .pilares{gap:.6rem;margin-bottom:1rem}
+    .pilar{display:flex;align-items:center}
+    .pilar img{width:84px;height:84px;aspect-ratio:auto;flex:none;border-radius:var(--radio) 0 0 var(--radio)}
+    .pilar div{padding:.55rem .8rem}
+    .pilar h3{font-size:1rem;margin-bottom:.1rem}
+    .pilar p{font-size:.85rem;line-height:1.35}
+
+    /* banda -> baja */
+    .banda{min-height:0;margin-bottom:1rem}
+    .banda>img{opacity:.8}
+    .banda-texto{padding:.9rem 1rem}
+    .banda-texto h2{font-size:1.05rem;margin-bottom:.2rem}
+    .banda-texto p{font-size:.85rem}
+
+    /* proyectos: foto de tarjeta un poco más baja */
+    .tarjeta-img{aspect-ratio:16/8}
+    .titulo-seccion{font-size:1.2rem}
+}

@@ -4,10 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
+<script>try{if(sessionStorage.getItem('rs_gen_ok')!=='1'){document.documentElement.classList.add('bloqueado');}}catch(e){document.documentElement.classList.add('bloqueado');}</script>
 <title>Generador de proyectos · Revista Speed</title>
-<link rel="stylesheet" href="assets/css/style.css?v=202611241120">
+<link rel="stylesheet" href="assets/css/style.css?v=202611241128">
 </head>
-<body>
+<body data-protegida>
 <header class="cab">
     <div class="cab-in">
         <a class="marca" href="index.html"><span class="marca-r">SPEED</span> <span class="marca-t">Revista</span></a>
@@ -15,84 +16,217 @@
     </div>
 </header>
 <main class="contenedor">
-<h1>Generador de proyectos</h1>
-<p class="tenue">Llena el formulario, copia el resultado y pégalo en <code>data/proyectos.json</code> (dentro de los corchetes <code>[ ]</code>, separando proyectos con una coma). Luego sube las fotos a la carpeta indicada. Esta página solo prepara el texto: no guarda nada.</p>
 
-<form class="form form-ancho" id="f" autocomplete="off">
-    <label>Título del proyecto <input name="titulo" maxlength="120" required></label>
-    <div class="dos-col">
-        <label>Curso <input name="curso" maxlength="80" required placeholder="Ej. 2.º de Bachillerato A"></label>
-        <label>Stand / ubicación (opcional) <input name="stand" maxlength="60"></label>
-    </div>
-    <label>Expositores (uno por línea)
-        <textarea name="expositores" rows="3" required placeholder="Nombre Apellido&#10;Nombre Apellido&#10;Docente tutor: …"></textarea></label>
-    <label>Reseña corta <small class="tenue">(sale en la tarjeta de la portada, máx. 280 caracteres)</small>
-        <textarea name="resena" rows="2" maxlength="280" required></textarea></label>
-    <label>Descripción completa <small class="tenue">(qué es, qué problema resuelve, cómo funciona)</small>
-        <textarea name="descripcion" rows="6" required></textarea></label>
-    <label>¿Qué tiene de innovador?
-        <textarea name="innovacion" rows="3" required></textarea></label>
-    <div class="dos-col">
-        <label>Fecha de publicación <input type="date" name="fecha" required></label>
-        <label>Video de YouTube (opcional) <input name="video" placeholder="https://youtu.be/…"></label>
-    </div>
-    <label>Nombres de las fotos de evidencia (uno por línea, opcional)
-        <textarea name="fotos" rows="3" placeholder="foto1.jpg&#10;foto2.jpg"></textarea></label>
-    <label>Extensión de la imagen principal
-        <select name="ext"><option>jpg</option><option>png</option><option>webp</option></select></label>
-    <button class="btn" type="submit">Generar</button>
-</form>
-
-<section id="salida" hidden>
-    <h2>1. Copia este texto en <code>data/proyectos.json</code></h2>
-    <textarea id="json" rows="16" readonly style="font-family:Consolas,monospace;font-size:.85rem"></textarea>
-    <p><button class="btn" id="copiar" type="button">Copiar</button> <span id="ok" class="tenue"></span></p>
-
-    <h2>2. Sube las fotos a esta carpeta del repositorio</h2>
-    <p><code id="carpeta"></code></p>
-    <p class="tenue">La imagen principal debe llamarse <code id="nportada"></code>. Las demás fotos, con los nombres que escribiste arriba.</p>
+<section class="gen-cab">
+    <h1>Generador de proyectos</h1>
+    <p class="tenue">Llena los datos de tu proyecto y verás cómo quedará su tarjeta. Esta página solo prepara el texto: no guarda nada.</p>
+    <ol class="gen-pasos">
+        <li><b>1</b> Llena los datos</li>
+        <li><b>2</b> Copia el texto</li>
+        <li><b>3</b> Pégalo y sube las fotos en GitHub</li>
+    </ol>
 </section>
+
+<div class="gen-grid">
+
+    <!-- ============ FORMULARIO ============ -->
+    <form class="gen-form" id="f" autocomplete="off" onsubmit="return false;">
+
+        <fieldset class="gen-sec">
+            <legend><span>1</span> Datos básicos</legend>
+            <label>Título del proyecto
+                <input name="titulo" maxlength="120" placeholder="Ej. Tienda en línea para la panadería del barrio"></label>
+            <div class="dos-col">
+                <label>Curso
+                    <input name="curso" maxlength="80" placeholder="Ej. 2.º de Bachillerato A"></label>
+                <label>Stand / ubicación <small class="tenue">(opcional)</small>
+                    <input name="stand" maxlength="60" placeholder="Ej. Pasillo 2, mesa 5"></label>
+            </div>
+            <label>Expositores <small class="tenue">(uno por línea; puedes agregar al docente tutor)</small>
+                <textarea name="expositores" rows="3" placeholder="Nombre Apellido&#10;Nombre Apellido&#10;Docente tutor: …"></textarea></label>
+            <div class="dos-col">
+                <label>Fecha de publicación
+                    <input type="date" name="fecha"></label>
+                <label>Video de YouTube <small class="tenue">(opcional)</small>
+                    <input name="video" placeholder="https://youtu.be/…"></label>
+            </div>
+        </fieldset>
+
+        <fieldset class="gen-sec">
+            <legend><span>2</span> Textos</legend>
+            <label>Reseña corta <small class="tenue">(sale en la tarjeta de la portada)</small>
+                <textarea name="resena" rows="2" maxlength="280" placeholder="En una o dos frases: ¿de qué trata tu proyecto?"></textarea>
+                <small class="contador"><span id="cnt">0</span>/280</small></label>
+            <label>Descripción completa <small class="tenue">(qué es, qué problema resuelve y cómo funciona)</small>
+                <textarea name="descripcion" rows="6"></textarea></label>
+            <label>¿Qué tiene de innovador?
+                <textarea name="innovacion" rows="3"></textarea></label>
+        </fieldset>
+
+        <fieldset class="gen-sec">
+            <legend><span>3</span> Fotos</legend>
+            <label>Imagen principal <small class="tenue">(la de la tarjeta; foto horizontal)</small>
+                <input type="file" id="f-portada" accept="image/jpeg,image/png,image/webp"></label>
+            <label>Evidencias fotográficas <small class="tenue">(puedes elegir varias)</small>
+                <input type="file" id="f-fotos" accept="image/jpeg,image/png,image/webp" multiple></label>
+            <p class="gen-nota">Las fotos <b>no se suben desde aquí</b>: solo se usan para mostrarte la vista previa y tomar sus nombres. Más abajo te digo cómo subirlas.</p>
+            <div class="gen-miniaturas" id="miniaturas"></div>
+        </fieldset>
+    </form>
+
+    <!-- ============ VISTA PREVIA Y RESULTADO ============ -->
+    <aside class="gen-aside">
+
+        <div class="gen-caja">
+            <h2>Así se verá tu tarjeta</h2>
+            <article class="tarjeta">
+                <div class="tarjeta-img">
+                    <img id="pv-img" alt="" hidden>
+                    <span class="sin-img" id="pv-noimg">Imagen principal</span>
+                </div>
+                <div class="tarjeta-cuerpo">
+                    <p class="meta"><span class="etq" id="pv-curso">Curso</span> <time id="pv-fecha">Fecha</time></p>
+                    <h3 id="pv-titulo">Título del proyecto</h3>
+                    <p class="resena" id="pv-resena">Aquí aparecerá la reseña corta de tu proyecto.</p>
+                    <div class="tarjeta-pie"><small class="tenue" id="pv-expo"></small><span class="ver-mas">Ver más &rarr;</span></div>
+                </div>
+            </article>
+        </div>
+
+        <div class="gen-caja">
+            <h2>Resultado</h2>
+            <p class="aviso aviso-info" id="faltan" hidden></p>
+            <label class="gen-check"><input type="checkbox" id="coma" checked> Ya hay proyectos en el archivo (agrega la coma al inicio)</label>
+            <textarea id="json" rows="10" readonly spellcheck="false"></textarea>
+            <p class="gen-botones">
+                <button class="btn" id="copiar" type="button" disabled>Copiar texto</button>
+                <span id="ok" class="tenue"></span>
+            </p>
+
+            <ol class="gen-instr">
+                <li>Pulsa <b>Copiar texto</b>.
+                    <a class="btn-sec" href="https://github.com/kalimusic0/revista-speed/edit/main/data/proyectos.json" target="_blank" rel="noopener">Abrir proyectos.json en GitHub</a></li>
+                <li>Pega el texto <b>justo antes del <code>]</code> final</b> y pulsa <b>Commit changes</b>.</li>
+                <li>Crea en tu PC una carpeta llamada <code id="carpeta">…</code> con estas fotos (con <b>exactamente</b> estos nombres):
+                    <ul class="gen-archivos" id="archivos"></ul></li>
+                <li>Arrastra esa carpeta aquí y pulsa <b>Commit changes</b>:
+                    <a class="btn-sec" href="https://github.com/kalimusic0/revista-speed/upload/main/img/proyectos" target="_blank" rel="noopener">Subir fotos en GitHub</a></li>
+            </ol>
+            <p class="tenue"><small>En 1 o 2 minutos el proyecto aparece en la revista.</small></p>
+        </div>
+    </aside>
+</div>
+
 </main>
 <footer class="pie">Revista Speed &middot; Generador interno</footer>
+
+<script src="assets/js/acceso.js?v=202611241128"></script>
 <script>
 (function () {
+    var f = document.getElementById('f');
+    var $ = function (id) { return document.getElementById(id); };
+    var portada = null;     // {url, ext}
+    var fotos = [];         // [{url, nombre}]
+
+    // fecha de hoy por defecto
+    var d = new Date();
+    f.fecha.value = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+
+    var MESES = ['', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+    function fechaBonita(y) {
+        var p = (y || '').split('-');
+        return p.length === 3 ? parseInt(p[2], 10) + ' de ' + MESES[parseInt(p[1], 10)] + ' de ' + p[0] : '';
+    }
     function slug(s) {
         return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
                 .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 50) || 'proyecto';
     }
+    function nombreSeguro(n) {
+        var m = n.match(/^(.*?)(\.[A-Za-z0-9]+)?$/);
+        var base = slug(m[1]) || 'foto';
+        var ext = (m[2] || '.jpg').toLowerCase().replace('.jpeg', '.jpg');
+        return base + ext;
+    }
+    function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
     function lineas(s) { return s.split('\n').map(function (x) { return x.trim(); }).filter(Boolean); }
 
-    document.getElementById('f').addEventListener('submit', function (ev) {
-        ev.preventDefault();
-        var f = ev.target, id = slug(f.titulo.value), base = 'img/proyectos/' + id + '/';
+    function actualizar() {
+        var titulo = f.titulo.value.trim(), curso = f.curso.value.trim();
+        var expo = lineas(f.expositores.value), resena = f.resena.value.trim();
+
+        // contador
+        $('cnt').textContent = f.resena.value.length;
+
+        // vista previa
+        $('pv-titulo').textContent = titulo || 'Título del proyecto';
+        $('pv-curso').textContent = curso || 'Curso';
+        $('pv-fecha').textContent = fechaBonita(f.fecha.value) || 'Fecha';
+        $('pv-resena').textContent = resena || 'Aquí aparecerá la reseña corta de tu proyecto.';
+        $('pv-expo').textContent = expo.length ? expo[0] + (expo.length > 1 ? ' y otros' : '') : '';
+        if (portada) { $('pv-img').src = portada.url; $('pv-img').hidden = false; $('pv-noimg').hidden = true; }
+        else { $('pv-img').hidden = true; $('pv-noimg').hidden = false; }
+
+        // JSON
+        var id = slug(titulo), base = 'img/proyectos/' + id + '/';
+        var ext = portada ? portada.ext : 'jpg';
         var p = {
-            id: id,
-            titulo: f.titulo.value.trim(),
-            curso: f.curso.value.trim(),
-            expositores: lineas(f.expositores.value),
-            stand: f.stand.value.trim(),
-            fecha: f.fecha.value,
-            resena: f.resena.value.trim(),
-            descripcion: f.descripcion.value.trim(),
-            innovacion: f.innovacion.value.trim(),
-            video: f.video.value.trim(),
-            portada: base + 'portada.' + f.ext.value,
-            fotos: lineas(f.fotos.value).map(function (n) { return base + n; })
+            id: id, titulo: titulo, curso: curso, expositores: expo, stand: f.stand.value.trim(),
+            fecha: f.fecha.value, resena: resena, descripcion: f.descripcion.value.trim(),
+            innovacion: f.innovacion.value.trim(), video: f.video.value.trim(),
+            portada: base + 'portada.' + ext,
+            fotos: fotos.map(function (x) { return base + x.nombre; })
         };
-        document.getElementById('json').value = JSON.stringify(p, null, 2);
-        document.getElementById('carpeta').textContent = base;
-        document.getElementById('nportada').textContent = 'portada.' + f.ext.value;
-        var s = document.getElementById('salida');
-        s.hidden = false;
-        s.scrollIntoView({ behavior: 'smooth' });
+        $('json').value = ($('coma').checked ? ',\n' : '') + JSON.stringify(p, null, 2);
+
+        // carpeta y archivos
+        $('carpeta').textContent = id;
+        var li = '<li><code>portada.' + ext + '</code> <small class="tenue">(imagen principal)</small></li>';
+        fotos.forEach(function (x) { li += '<li><code>' + esc(x.nombre) + '</code></li>'; });
+        $('archivos').innerHTML = li;
+
+        // faltantes
+        var req = [['titulo', 'el título'], ['curso', 'el curso'], ['expositores', 'los expositores'],
+                   ['resena', 'la reseña corta'], ['descripcion', 'la descripción'], ['innovacion', 'lo innovador'], ['fecha', 'la fecha']];
+        var faltan = req.filter(function (r) { return !f[r[0]].value.trim(); }).map(function (r) { return r[1]; });
+        if (!portada) { faltan.push('la imagen principal'); }
+        var av = $('faltan');
+        if (faltan.length) { av.textContent = 'Falta completar: ' + faltan.join(', ') + '.'; av.hidden = false; }
+        else { av.hidden = true; }
+        $('copiar').disabled = faltan.length > 0;
+    }
+
+    f.addEventListener('input', actualizar);
+    $('coma').addEventListener('change', actualizar);
+
+    $('f-portada').addEventListener('change', function () {
+        var file = this.files[0];
+        if (!file) { portada = null; actualizar(); return; }
+        var m = file.name.match(/\.([A-Za-z0-9]+)$/);
+        var ext = m ? m[1].toLowerCase().replace('jpeg', 'jpg') : 'jpg';
+        portada = { url: URL.createObjectURL(file), ext: ext };
+        actualizar();
     });
 
-    document.getElementById('copiar').addEventListener('click', function () {
-        var t = document.getElementById('json');
-        t.select();
-        try { document.execCommand('copy'); document.getElementById('ok').textContent = '¡Copiado!'; }
-        catch (e) { document.getElementById('ok').textContent = 'Selecciona el texto y copia con Ctrl+C.'; }
+    $('f-fotos').addEventListener('change', function () {
+        fotos = Array.prototype.slice.call(this.files).map(function (file) {
+            return { url: URL.createObjectURL(file), nombre: nombreSeguro(file.name) };
+        });
+        $('miniaturas').innerHTML = fotos.map(function (x) {
+            return '<figure><img src="' + x.url + '" alt=""><figcaption>' + esc(x.nombre) + '</figcaption></figure>';
+        }).join('');
+        actualizar();
     });
+
+    $('copiar').addEventListener('click', function () {
+        var t = $('json');
+        t.select();
+        var okMsg = function () { $('ok').textContent = '¡Copiado!'; setTimeout(function () { $('ok').textContent = ''; }, 2500); };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(t.value).then(okMsg, function () { document.execCommand('copy'); okMsg(); });
+        } else { document.execCommand('copy'); okMsg(); }
+    });
+
+    actualizar();
 })();
 </script>
 </body>
